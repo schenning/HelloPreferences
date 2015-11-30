@@ -1,6 +1,9 @@
 package fr.eurecom.android.preferences;
 
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -104,7 +107,15 @@ public class HelloPreferences extends AppCompatActivity {
      * return super.onOptionsItemSelected(item);
      * }
      **/
-
+    public void reset_preferences() {
+        SharedPreferences.Editor edit = preferences.edit();
+        edit.putString("username", null);
+        edit.putString("password", null);
+        edit.commit(); // Apply changes
+        // A toast is a view containing a quick little message for the
+        // user. We give a little feedback
+        Toast.makeText(HelloPreferences.this, "Reset user name and password", Toast.LENGTH_LONG).show();
+    }
     public void openDialog(View v) {
         // Create out AlterDialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -124,4 +135,27 @@ public class HelloPreferences extends AppCompatActivity {
         dialog.show();
 
     }
+
+
+    public void createNotification() {
+        NotificationManager notificationManager = (NotificationManager)
+                getSystemService(NOTIFICATION_SERVICE);
+        // prepare intent which is triggered if the notification is selected
+        Intent intent = new Intent(this, HelloPreferences.class);
+        PendingIntent activity = PendingIntent.getActivity(this, 0, intent, 0);
+        Notification notification = new Notification.Builder(this)
+                .setContentTitle("Hello Preferences")
+                .setContentText("Successfully reset user Credential")
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setContentIntent(activity)
+                .setAutoCancel(true)
+                .addAction(R.drawable.ic_launcher, "Call", activity)
+                .addAction(R.drawable.ic_launcher, "More", activity)
+                .build();
+        notificationManager.notify(0, notification);
+    }
+
+
 }
+
+
