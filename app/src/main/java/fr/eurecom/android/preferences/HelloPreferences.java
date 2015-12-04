@@ -25,25 +25,36 @@ public class HelloPreferences extends AppCompatActivity {
     //* @Override *//
     SharedPreferences preferences;
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hello_preferences);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+ /**       Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar); **/
+/**        setSupportActionBar(toolbar); **/
         // Initialize preferences
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         Button button1 = (Button) findViewById(R.id.button);
+        Button button2 = (Button)findViewById(R.id.button2);
+        Button button3 = (Button) findViewById(R.id.button3);
+
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = preferences.getString("username", "n/a");
-                String password = preferences.getString("password", "n/a");
+                String username = preferences.getString("username", "NIL");
+                String password = preferences.getString("password", "NIL");
                 // A toast is a view containing a quick little message for the user.
                 showPrefs(username, password);
             }
         });
-        Button button2 = (Button)findViewById(R.id.button2);
-        Button button3 = (Button) findViewById(R.id.button3);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialog(v);
+            }
+
+        });
+
+
         /**Button button4 = (Button)findViewById(R.id.buttonCN); **/
     }
 
@@ -73,16 +84,9 @@ public class HelloPreferences extends AppCompatActivity {
     }
 
 
-    /**
-     * FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-     * fab.setOnClickListener(new View.OnClickListener() {
-     *
-     * @Override public void onClick(View view) {
-     * Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-     * .setAction("Action", null).show();
-     * }
-     * });
-     **/
+
+
+
 
 
     @Override
@@ -92,21 +96,8 @@ public class HelloPreferences extends AppCompatActivity {
         return true;
     }
 
-    /**
-     * @Override public boolean onOptionsItemSelected(MenuItem item) {
-     * // Handle action bar item clicks here. The action bar will
-     * // automatically handle clicks on the Home/Up button, so long
-     * // as you specify a parent activity in AndroidManifest.xml.
-     * int id = item.getItemId();
-     * <p>
-     * //noinspection SimplifiableIfStatement
-     * if (id == R.id.action_settings) {
-     * return true;
-     * }
-     * <p>
-     * return super.onOptionsItemSelected(item);
-     * }
-     **/
+
+
     public void reset_preferences() {
         SharedPreferences.Editor edit = preferences.edit();
         edit.putString("username", null);
@@ -121,12 +112,12 @@ public class HelloPreferences extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Reset username and password?");
         builder.setCancelable(true);
-        builder.setPositiveButton("I agree", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("I wanna do it;) ", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getApplicationContext(), "Resetting Credential ", Toast.LENGTH_LONG).show();
             }
         });
-        builder.setNegativeButton("No, no", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("No, svp", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getApplicationContext(), "Keep Credential", Toast.LENGTH_LONG).show();
             }
@@ -135,8 +126,6 @@ public class HelloPreferences extends AppCompatActivity {
         dialog.show();
 
     }
-
-
     public void createNotification() {
         NotificationManager notificationManager = (NotificationManager)
                 getSystemService(NOTIFICATION_SERVICE);
@@ -146,16 +135,24 @@ public class HelloPreferences extends AppCompatActivity {
         Notification notification = new Notification.Builder(this)
                 .setContentTitle("Hello Preferences")
                 .setContentText("Successfully reset user Credential")
-                .setSmallIcon(R.drawable.ic_launcher)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(activity)
                 .setAutoCancel(true)
-                .addAction(R.drawable.ic_launcher, "Call", activity)
-                .addAction(R.drawable.ic_launcher, "More", activity)
+                .addAction(R.mipmap.ic_launcher, "Call", activity)
+                .addAction(R.mipmap.ic_launcher, "More", activity)
                 .build();
         notificationManager.notify(0, notification);
     }
 
-
+    public void exitPreferences(View view){
+        this.finish();
+    }
+    public void createNotification(View view){
+        createNotification();
+    }
 }
+
+
+
 
 
