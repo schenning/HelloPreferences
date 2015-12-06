@@ -42,7 +42,7 @@ public class HelloPreferences extends AppCompatActivity {
             public void onClick(View v) {
                 String username = preferences.getString("username", "NIL");
                 String password = preferences.getString("password", "NIL");
-                // A toast is a view containing a quick little message for the user.
+
                 showPrefs(username, password);
             }
         });
@@ -51,6 +51,17 @@ public class HelloPreferences extends AppCompatActivity {
             public void onClick(View v) {
                 openDialog(v);
             }
+
+        });
+
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                finish();
+            }
+
+
+
 
         });
 
@@ -75,16 +86,13 @@ public class HelloPreferences extends AppCompatActivity {
                 startActivity(i);
                 // A toast is a view containing a quick little message for the user.
                 Toast.makeText(HelloPreferences.this,
-                        "Here you can store your user credentials.",
+                        "Here you can store your user credentials.:=) ",
                         Toast.LENGTH_LONG).show();
                 Log.i("Main", "sent an intent to the Preference class");
                 break;
         }
         return true;
     }
-
-
-
 
 
 
@@ -100,9 +108,9 @@ public class HelloPreferences extends AppCompatActivity {
 
     public void reset_preferences() {
         SharedPreferences.Editor edit = preferences.edit();
-        edit.putString("username", null);
-        edit.putString("password", null);
-        edit.commit(); // Apply changes
+        edit.putString("username", "n/a");
+        edit.putString("password", "n/a");
+        edit.apply(); // Apply changes
         // A toast is a view containing a quick little message for the
         // user. We give a little feedback
         Toast.makeText(HelloPreferences.this, "Reset user name and password", Toast.LENGTH_LONG).show();
@@ -115,9 +123,10 @@ public class HelloPreferences extends AppCompatActivity {
         builder.setPositiveButton("I wanna do it;) ", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getApplicationContext(), "Resetting Credential ", Toast.LENGTH_LONG).show();
+                reset_preferences();
             }
         });
-        builder.setNegativeButton("No, svp", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Non, svp", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getApplicationContext(), "Keep Credential", Toast.LENGTH_LONG).show();
             }
@@ -143,6 +152,7 @@ public class HelloPreferences extends AppCompatActivity {
                 .build();
         notificationManager.notify(0, notification);
     }
+
 
     public void exitPreferences(View view){
         this.finish();
